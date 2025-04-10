@@ -16,6 +16,12 @@ jobs:
     steps:
       - name: Checkout do repositório
         uses: actions/checkout@v3
+      
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Rodar testes com Jest
+        run: npm test
 
       - name: Deploy para GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
