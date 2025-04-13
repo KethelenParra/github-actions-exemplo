@@ -17,13 +17,16 @@
     </ul>
    <div id="status" style="margin-top: 20px;"></div>
     <script>
-      fetch("status.json")
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === "ok") {
-            document.getElementById("status").innerHTML = "<span class='estrela'>⭐</span> Testes passaram!";
-          }
-        });
+      document.addEventListener("DOMContentLoaded", () => {
+        fetch("status.json")
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === "ok") {
+              document.getElementById("status").innerHTML = "<span class='estrela'>⭐</span> Testes passaram!";
+            }
+          })
+          .catch(err => console.error("Erro ao carregar status.json:", err));
+      });
     </script>
   </div>
 </body>
