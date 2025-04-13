@@ -20,7 +20,7 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
-      - name: Rodar testes com Jest
+      - name: Rodar testes com Jest e gerar status.json
         run: npm test
 
       - name: Deploy para GitHub Pages
