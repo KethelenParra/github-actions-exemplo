@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GitHub Actions</title>
-  <base href="/github-actions-exemplo/">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -12,16 +11,14 @@
     <h1>Deploy Automático com GitHub Actions</h1>
     <p>O GitHub Actions é uma ferramenta poderosa de automação para integração e entrega contínua (CI/CD).</p>
     <ul>
-      <li><strong>Versionamento:</strong> Com o Git, todo o histórico de alterações do projeto é salvo.</li>
-      <li><strong>Integração Contínua:</strong> A cada push, testes e verificações automáticas podem ser executadas.</li>
-      <li><strong>Implantação Contínua:</strong> As alterações são publicadas automaticamente após o push.</li>
+      <li><strong>📒 Versionamento:</strong> Com o Git, todo o histórico de alterações do projeto é salvo.</li>
+      <li><strong>🛠️ Integração Contínua:</strong> A cada push, testes e verificações automáticas podem ser executadas.</li>
+      <li><strong>🚀 Implantação Contínua:</strong> As alterações são publicadas automaticamente após o push.</li>
     </ul>
-
-    <div id="status" style="margin-top: 20px;"></div>
-
+   <div id="status" style="margin-top: 20px;"></div>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        fetch("status.json", { cache: "no-store" })
+        fetch("status.json")
           .then(response => response.json())
           .then(data => {
             if (data.status === "ok") {
