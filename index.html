@@ -16,5 +16,14 @@
       <li><strong>Implantação Contínua:</strong> As alterações são publicadas automaticamente após o push.</li>
     </ul>
   </div>
+  <script>
+    fetch("status.json")
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === "ok") {
+          document.getElementById("status").innerHTML = "<span class='estrela'>⭐</span> Testes passaram!";
+        }
+      });
+  </script>
 </body>
 </html>
