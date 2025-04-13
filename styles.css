@@ -3,6 +3,57 @@ body {
   background-color: #f4f4f4;
   margin: 0;
   padding: 0;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: #333;
+}
+
+code,
+pre {
+  background-color: #eee;
+  padding: 8px;
+  display: block;
+  white-space: pre;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+.code-inline {
+  background-color: #eee;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+ul {
+  list-style-type: disc;
+  margin-left: 40px;
+}
+
+.highlight {
+  background-color: #fff8d8;
+  padding: 4px;
+  border-left: 4px solid #ffd42d;
+}
+
+.section-title {
+  font-weight: bold;
+  margin-top: 30px;
+  font-size: 1.2em;
+  color: #555;
+}
+
+/* Exemplo de destaque para avisos ou observações */
+.aviso {
+  background-color: #fff3cd;
+  border-left: 4px solid #ffeeba;
+  padding: 8px;
+  margin: 10px 0;
 }
 
 .container {
@@ -11,7 +62,7 @@ body {
   background: white;
   padding: 30px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .estrela {
