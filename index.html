@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GitHub Actions</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
   <div class="container">
     <h1>Deploy Automático com GitHub Actions</h1>
     <p>O GitHub Actions é uma ferramenta poderosa de automação para integração e entrega contínua (CI/CD).</p>
     <ul>
       <li><strong>📒 Versionamento:</strong> Com o Git, todo o histórico de alterações do projeto é salvo.</li>
-      <li><strong>🛠️ Integração Contínua:</strong> A cada push, testes e verificações automáticas podem ser executadas.</li>
+      <li><strong>🛠️ Integração Contínua:</strong> A cada push, testes e verificações automáticas podem ser executadas.
+      </li>
       <li><strong>🚀 Implantação Contínua:</strong> As alterações são publicadas automaticamente após o push.</li>
     </ul>
-   <div id="status" style="margin-top: 20px;"></div>
+    <div id="status" style="margin-top: 20px;"></div>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         fetch("status.json")
@@ -28,6 +31,242 @@
           .catch(err => console.error("Erro ao carregar status.json:", err));
       });
     </script>
+    <h1 class="page-title">Relatório - Projeto prático com GitHub Actions</h1>
+
+    <h2>Objetivo do Trabalho</h2>
+    <p>
+      Este trabalho teve como objetivo demonstrar de forma prática o uso da ferramenta
+      GitHub Actions como recurso para versionamento, integração contínua (CI) e
+      implantação contínua (CD) em um projeto de código aberto. Foi desenvolvido um mini
+      projeto contendo arquivos HTML, CSS e JavaScript, integrando testes automatizados e
+      deploy automático com GitHub Pages.
+    </p>
+
+    <h2>Etapas Realizadas</h2>
+
+    <h3>1. Criação do Repositório</h3>
+    <p>
+      O repositório foi criado no GitHub com o nome:
+      <code class="code-inline">github-actions-exemplo</code>
+      Dentro dele, foram adicionados arquivos iniciais de uma página estática.
+    </p>
+
+    <h3>2. Estrutura de Arquivos Criados</h3>
+    <pre>
+      .github/
+        └── workflows/
+            └── deploy.yml     # Arquivo de workflow do GitHub Actions
+      scripts/
+        └── math.js            # Função JS de exemplo
+        └── math.test.js       # Testes automatizados com Jest
+      index.html               # Página HTML principal
+      styles.css               # Estilização da página
+      package.json             # Arquivo de dependências Node.js e script de teste
+    </pre>
+
+    <h2>Detalhamento dos Arquivos e Funções</h2>
+    <h3>math.js</h3>
+    <p>Função JavaScript simples exportada para testes automatizados.</p>
+    <pre>
+      function somar(a, b) {
+        return a + b;
+      }
+      module.exports = { somar };
+    </pre>
+
+    <h3>math.test.js</h3>
+    <p>Teste automatizado com Jest para validar a função. <code class="code-inline">somar()</code></p>
+    <pre>
+      const { somar } = require("./math");
+
+      test("Soma de 2 + 2 deve ser 4", () => {
+        expect(somar(2, 2)).toBe(4);
+      });
+    </pre>
+
+    <h3>package.json</h3>
+    <p>Declara as dependências do projeto, incluindo Jest.<br>
+      Define o comando <code class="code-inline">npm test</code> para rodar os testes.</p>
+    <pre>
+      {
+        "name": "github-actions-exemplo",
+        "version": "1.0.0",
+        "scripts": {
+          "test": "jest && echo {\"status\":\"ok\"} > ./status.json"
+        },
+        "devDependencies": {
+          "jest": "^29.0.0"
+        }
+      }
+    </pre>
+
+    <h2>Workflow - GitHub Actions (deploy.yml)</h2>
+    <pre>
+        name: Deploy para GitHub Pages
+
+        on:
+          push:
+            branches: [main]
+
+        permissions:
+          contents: write
+          pages: write
+          id-token: write
+
+        jobs:
+          deploy:
+            runs-on: ubuntu-latest
+            steps:
+              - name: Checkout do repositório
+                uses: actions/checkout@v3
+
+              - name: Instalar dependências
+                run: npm install
+
+              - name: Rodar testes com Jest
+                run: npm test
+
+              - name: Criar status.json
+                run: echo '{"status":"ok"}' > status.json
+
+              - name: Deploy para GitHub Pages
+                uses: peaceiris/actions-gh-pages@v3
+                with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./
+                  publish_branch: gh-pages
+    </pre>
+    <p>
+      <strong>Observações:</strong><br>
+      • Esse arquivo define que o workflow será executado sempre que houver push na branch. <code
+        class="code-inline">main</code><br>
+      • Ele roda testes com Jest, e só publica o código na branch <code class="code-inline">gh-pages</code> se os testes
+      passarem.<br>
+      • A branch <code class="code-inline">gh-pages</code> é utilizada automaticamente pelo GitHub Pages para gerar o
+      link de deploy.
+    </p>
+
+    <h3>O que são Workflows?</h3>
+    <p>
+      Um workflow no GitHub Actions é uma sequência de etapas automáticas que rodam
+      após um gatilho (<em>push</em>, <em>pull request</em>, <em>cron</em>, etc). Esses workflows são definidos em
+      arquivos .yml dentro da pasta: <code class="code-inline">.github/workflows</code>
+    </p>
+    <p>
+      Neste projeto, o workflow principal é o <code class="code-inline">deploy.yml</code>, responsável por:
+    </p>
+    <ul>
+      <li>Validar o código</li>
+      <li>Automatizar testes</li>
+      <li>Fazer deploy do resultado</li>
+    </ul>
+    <p>
+      Você pode ter múltiplos workflows para diferentes finalidades (testes, builds, deploys em
+      ambientes diferentes, CI para PRs, etc).
+    </p>
+    <h3>Como o GitHub Actions atua no Versionamento</h3>
+    <p>
+      O versionamento em si é feito pelo Git, que rastreia todas as mudanças no projeto.
+      Porém, o GitHub Actions entra como "automação de resposta ao versionamento".
+      Toda vez que é feito um <em>push</em> no branch <code class="code-inline">main</code>, o GitHub Actions detecta
+      essa mudança
+      automaticamente e dispara um workflow configurado no arquivo: <code class="code-inline">deploy.yml</code>
+    </p>
+    <p>
+      Ou seja, o GitHub Actions "ouve" os eventos do Git (como push ou pull request) e
+      executa tarefas automáticas configuradas.
+    </p>
+
+    <h2>CI - Integração Contínua</h2>
+    <p>
+      CI significa garantir que todo código enviado para o repositório seja testado
+      automaticamente. Neste projeto:
+    </p>
+    <ul>
+      <li>
+        O arquivo <code class="code-inline">deploy.yml</code> define que ao realizar um push, o GitHub Actions:
+        <ol>
+          <li>Faz o checkout do código.</li>
+          <li>Instala as dependências (como o Jest).</li>
+          <li>Executa os testes definidos em <code class="code-inline">math.test.js</code></li>
+        </ol>
+      </li>
+      <li>
+        Se os testes passarem, o processo continua; se falharem, o processo para e o deploy não é feito.
+        Isso evita que erros entrem em produção. É o conceito central da CI: integrar código
+        com segurança, sempre validado.
+      </li>
+    </ul>
+
+    <h2>CD - Entrega Contínua (ou Implantação Contínua)</h2>
+    <p>
+      Após os testes serem executados com sucesso, o GitHub Actions:
+    </p>
+    <ol>
+      <li>Cria (ou atualiza) o arquivo <code class="code-inline">status.json</code> com <code
+          class="code-inline">"status": "ok"</code></li>
+      <li>Usa a ação <code class="code-inline">peaceiris/actions-gh-pages</code> para fazer deploy do conteúdo do
+        projeto
+        na branch <code class="code-inline">gh-pages</code></li>
+      <li>O GitHub Pages então publica automaticamente a nova versão do site
+        hospedado em:
+        <br>
+        <strong>https://kethelenparra.github.io/github-actions-exemplo/</strong>
+      </li>
+    </ol>
+    <p>
+      Esse ciclo contínuo, sem necessidade de subir manualmente, é o CD em ação.
+    </p>
+    <h3>O que o GitHub Actions está fazendo neste projeto?</h3>
+    <table border="1" cellpadding="6" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Elemento</th>
+          <th>Papel do GitHub Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Versionamento</strong></td>
+          <td>Dispara workflows automaticamente ao detectar mudanças (push)</td>
+        </tr>
+        <tr>
+          <td><strong>Integração Contínua</strong></td>
+          <td>Executa testes (Jest) automaticamente após mudanças</td>
+        </tr>
+        <tr>
+          <td><strong>Implantação Contínuo (CD)</strong></td>
+          <td>Publica o site na web automaticamente se os testes forem aprovados</td>
+        </tr>
+        <tr>
+          <td><strong>Workflow.yml</strong></td>
+          <td>Define, passo a passo, o que será feito em cada execução</td>
+        </tr>
+        <tr>
+          <td><strong>Segurança e automação</strong></td>
+          <td>Garante que apenas código testado seja entregue ao usuário final</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Benefícios percebidos com GitHub Actions</h2>
+    <ul>
+      <li>Automatiza todo o processo de teste e publicação</li>
+      <li>Garante que nenhum erro seja publicado (graças aos testes automatizados)</li>
+      <li>Evita tarefas manuais de deploy</li>
+      <li>Demonstra na prática o ciclo completo de CI/CD mesmo em um projeto simples</li>
+      <li>Fornece um feedback visual direto na página publicada</li>
+    </ul>
+
+    <h2>Conclusão</h2>
+    <p>
+      Este miniprojeto mostrou que é possível aplicar conceitos de DevOps, como integração
+      contínua e entrega contínua, com uma ferramenta gratuita e poderosa como o GitHub
+      Actions. Mesmo com uma aplicação simples, foi possível validar testes automáticos e
+      deploy sem intervenção manual, o que reflete boas práticas de desenvolvimento
+      profissional.
+    </p>
   </div>
 </body>
+
 </html>
