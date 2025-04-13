@@ -20,9 +20,12 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
-      - name: Rodar testes com Jest e gerar status.json
+      - name: Rodar testes com Jest 
         run: npm test
 
+      - name: Criar status.json
+        run: echo '{"status":"ok"}' > status.json
+      
       - name: Deploy para GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
