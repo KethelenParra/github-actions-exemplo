@@ -2,7 +2,7 @@
   "name": "github-actions-exemplo",
   "version": "1.0.0",
   "scripts": {
-    "test": "jest"
+    "test": "jest && echo {\"status\":\"ok\"} > status.json"
   },
   "devDependencies": {
     "jest": "^29.0.0"
